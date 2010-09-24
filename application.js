@@ -1,5 +1,5 @@
 (function() {
-  var animate, animate2, b, bIndex, beat, checkBlinks, checkGroups, click, init, initBlink, initCheckBoxes, initRadioButtons, jiggleCircle, m, oneBeat, page, pages, show;
+  var animate, animate2, b, bIndex, beat, bgColor, checkBlinks, checkGroups, click, init, initBlink, initCheckBoxes, initRadioButtons, jiggleCircle, m, mouseX, mouseY, oneBeat, page, pages, show;
   var __hasProp = Object.prototype.hasOwnProperty;
   checkGroups = [[], [], [], []];
   checkBlinks = [
@@ -158,17 +158,25 @@
   jiggleCircle = function() {};
   b = 0;
   m = 0;
+  mouseX = 0;
+  mouseY = 0;
   document.observe("mousemove", function(event) {
-    var color, g, r;
-    if (m++ === 3) {
-      m = 0;
-      r = Math.floor(Event.pointerX(event) / $(document.width) * 255);
-      g = Math.floor(Event.pointerY(event) / $(document.height) * 255);
-      b = (b + 10) % 255;
-      color = ("rgb(" + (r) + "," + (g) + "," + (b) + ")");
-      return $(document.body).setStyle("background-color:" + (color));
-    }
+    mouseX = Event.pointerX(event);
+    return (mouseY = Event.pointerY(event));
   });
+  document.observe("beat:1", function() {
+    return bgColor(100);
+  });
+  document.observe("beat:3", function() {
+    return bgColor(200);
+  });
+  bgColor = function(b) {
+    var color, g, r;
+    r = Math.floor(mouseX / $(document.width) * 255);
+    g = Math.floor(mouseY / $(document.height) * 255);
+    color = ("rgb(" + (r) + "," + (g) + "," + (b) + ")");
+    return $(document.body).setStyle("background-color:" + (color));
+  };
   bIndex = 0;
   animate2 = function() {
     var select;

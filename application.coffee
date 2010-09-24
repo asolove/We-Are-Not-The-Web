@@ -74,15 +74,20 @@ jiggleCircle = () ->
 
 b = 0
 m = 0
+mouseX = 0
+mouseY = 0
 document.observe "mousemove", (event) ->
-  if m++ is 3
-    m = 0
-    r = Math.floor(Event.pointerX(event) / $(document.width) * 255)
-    g = Math.floor(Event.pointerY(event) / $(document.height) * 255)
-    b = (b+10)%255
-    
-    color = "rgb(#{r},#{g},#{b})"
-    $(document.body).setStyle "background-color:#{color}"
+  mouseX = Event.pointerX(event)
+  mouseY = Event.pointerY(event)
+  
+document.observe "beat:1", () -> bgColor(100)
+document.observe "beat:3", () -> bgColor(200)
+
+bgColor = (b) ->
+  r = Math.floor(mouseX / $(document.width) * 255)
+  g = Math.floor(mouseY / $(document.height) * 255)
+  color = "rgb(#{r},#{g},#{b})"
+  $(document.body).setStyle "background-color:#{color}"
   
 bIndex = 0
 animate2 = () ->
