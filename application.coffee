@@ -16,8 +16,8 @@ initBlink = () ->
 initCheckBoxes = () ->
   corners = [["top","left"],["top","right"],["bottom","left"],["bottom","right"]]
   transitions = [
-    {top:"easeTo",bottom:"easeTo",left:"easeInCirc",right:"easeInCirc"},
-    {}
+    {top:"easeInOutBack",bottom:"easeInOutBack",left:"easeOutBack",right:"easeOutBack"},
+    {top:"spring", bottom: "spring", left: "swingFromTo", right:"swingFromTo"}
   ]
   indices = {} 
   reuse = {}
@@ -42,7 +42,7 @@ initCheckBoxes = () ->
         i = indices[corner]
         checkBox = createOrReuseCheckBox(corner, i)
         .setStyle("#{v}:50%;#{h}:50%;position:absolute;")
-        .morph "#{v}:0%;#{h}:0%;",
+        .morph "#{v}:13%;#{h}:10%;",
           duration: 10,
           propertyTransitions: t
           after: () -> reuse[corner].push(checkBox);
@@ -52,7 +52,7 @@ initCheckBoxes = () ->
 initRadioButtons = () ->
   count = 12
   
-  for i, r of {1: 100, 2:200}
+  for i, r of {1: 100, 2:180}
     $("wrap").insert "<div id='radioCircle#{i}'></div>"
     circle = $("radioCircle#{i}").setStyle("margin:-#{r}px -#{r}px;top:50%;left:50%;width:#{2*r}px;height:#{2*r}px;position:absolute;")
     for j in [0..count-1] 
@@ -69,6 +69,9 @@ initRadioButtons = () ->
   document.observe "beat:3", () ->
     $('radio1'+(2*selected-1)%count).checked = true
 
+jiggleCircle = () ->
+  
+
 b = 0
 m = 0
 document.observe "mousemove", (event) ->
@@ -76,14 +79,14 @@ document.observe "mousemove", (event) ->
     m = 0
     r = Math.floor(Event.pointerX(event) / $(document.width) * 255)
     g = Math.floor(Event.pointerY(event) / $(document.height) * 255)
-    b = (b+1)%255
+    b = (b+10)%255
     
     color = "rgb(#{r},#{g},#{b})"
-    $("wrap").setStyle "background-color:#{color}"
+    $(document.body).setStyle "background-color:#{color}"
   
 bIndex = 0
 animate2 = () ->
-  $("b").insert "<select id='b"+bIndex+"'/><option>We</option><option>are</option><option>not</option><option>the</option><option>web</option>"
+  $("b").insert "<select id='b"+bIndex+"'/><option>We</option><option>are</option><option>not</option><option>the</option><option>web</option><option>yet</option>"
   select = $("b"+bIndex)
   .setStyle 
     left: "48%"
@@ -97,13 +100,44 @@ animate2 = () ->
       after: () -> select.remove()
   bIndex++;
   
+document.observe "beat:1", () ->
+  $$("select")
+    .each (select) -> select.size = 0
+
+document.observe "beat:3", () ->
+  $$("select")
+    .each (select) -> select.size = page
+
+
+pages = 7
+document.observe "dom:loaded", () ->
+  $("essay").hide()
+  for page in [1..pages]
+    $("page"+page).hide()
+    
+page = 1 
+click = 1
+show = true
+document.observe "click", (event) ->
+  $("wrap").toggle()
+  $("essay").toggle()  
+  if show
+    $("page"+page).show()
+    $("page"+page).scrollTo()
+    page++
+  else if page is 8
+    $("essay").show().setStyle("opacity:0.4")
+    for p in [1..pages]
+      console.log(p)
+      $("page"+p).morph("margin-top:-400px; margin-right:-300px", {duration: 10, delay:p, transition:"mirror"})
+  show = !show
+  
+
 
 beat = 0
 oneBeat = () ->
-  $$("select")
-    .each (select) -> select.size = beat*2-1
   document.fire "beat:"+beat
-  document.fire "beat"
+  document.fire "beat:all", {beat: beat}
   beat = (beat + 1) % 4
 
 
@@ -111,7 +145,7 @@ animate = () ->
   animate2()
   
 init = () ->
-  beatLength = 60/150*1000 
+  beatLength = 60/155*1000 # tempo of the song
   setInterval(animate, beatLength*4)
   setInterval(oneBeat, beatLength/2)
   initBlink()

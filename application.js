@@ -1,5 +1,5 @@
 (function() {
-  var animate, animate2, b, bIndex, beat, checkBlinks, checkGroups, init, initBlink, initCheckBoxes, initRadioButtons, m, oneBeat;
+  var animate, animate2, b, bIndex, beat, checkBlinks, checkGroups, click, init, initBlink, initCheckBoxes, initRadioButtons, jiggleCircle, m, oneBeat, page, pages, show;
   var __hasProp = Object.prototype.hasOwnProperty;
   checkGroups = [[], [], [], []];
   checkBlinks = [
@@ -57,11 +57,16 @@
     corners = [["top", "left"], ["top", "right"], ["bottom", "left"], ["bottom", "right"]];
     transitions = [
       {
-        top: "easeTo",
-        bottom: "easeTo",
-        left: "easeInCirc",
-        right: "easeInCirc"
-      }, {}
+        top: "easeInOutBack",
+        bottom: "easeInOutBack",
+        left: "easeOutBack",
+        right: "easeOutBack"
+      }, {
+        top: "spring",
+        bottom: "spring",
+        left: "swingFromTo",
+        right: "swingFromTo"
+      }
     ];
     indices = {};
     reuse = {};
@@ -103,7 +108,7 @@
                 return _j.push((function() {
                   corner = v + h;
                   i = indices[corner];
-                  checkBox = createOrReuseCheckBox(corner, i).setStyle("" + (v) + ":50%;" + (h) + ":50%;position:absolute;").morph("" + (v) + ":0%;" + (h) + ":0%;", {
+                  checkBox = createOrReuseCheckBox(corner, i).setStyle("" + (v) + ":50%;" + (h) + ":50%;position:absolute;").morph("" + (v) + ":13%;" + (h) + ":10%;", {
                     duration: 10,
                     propertyTransitions: t,
                     after: function() {
@@ -126,7 +131,7 @@
     count = 12;
     _a = {
       1: 100,
-      2: 200
+      2: 180
     };
     for (i in _a) {
       if (!__hasProp.call(_a, i)) continue;
@@ -150,6 +155,7 @@
       return ($('radio1' + (2 * selected - 1) % count).checked = true);
     });
   };
+  jiggleCircle = function() {};
   b = 0;
   m = 0;
   document.observe("mousemove", function(event) {
@@ -158,15 +164,15 @@
       m = 0;
       r = Math.floor(Event.pointerX(event) / $(document.width) * 255);
       g = Math.floor(Event.pointerY(event) / $(document.height) * 255);
-      b = (b + 1) % 255;
+      b = (b + 10) % 255;
       color = ("rgb(" + (r) + "," + (g) + "," + (b) + ")");
-      return $("wrap").setStyle("background-color:" + (color));
+      return $(document.body).setStyle("background-color:" + (color));
     }
   });
   bIndex = 0;
   animate2 = function() {
     var select;
-    $("b").insert("<select id='b" + bIndex + "'/><option>We</option><option>are</option><option>not</option><option>the</option><option>web</option>");
+    $("b").insert("<select id='b" + bIndex + "'/><option>We</option><option>are</option><option>not</option><option>the</option><option>web</option><option>yet</option>");
     select = $("b" + bIndex).setStyle({
       left: "48%",
       bottom: "45%",
@@ -183,13 +189,56 @@
     });
     return bIndex++;
   };
+  document.observe("beat:1", function() {
+    return $$("select").each(function(select) {
+      return (select.size = 0);
+    });
+  });
+  document.observe("beat:3", function() {
+    return $$("select").each(function(select) {
+      return (select.size = page);
+    });
+  });
+  pages = 7;
+  document.observe("dom:loaded", function() {
+    var _a, page;
+    $("essay").hide();
+    _a = [];
+    for (page = 1; (1 <= pages ? page <= pages : page >= pages); (1 <= pages ? page += 1 : page -= 1)) {
+      _a.push($("page" + page).hide());
+    }
+    return _a;
+  });
+  page = 1;
+  click = 1;
+  show = true;
+  document.observe("click", function(event) {
+    var p;
+    $("wrap").toggle();
+    $("essay").toggle();
+    if (show) {
+      $("page" + page).show();
+      $("page" + page).scrollTo();
+      page++;
+    } else if (page === 8) {
+      $("essay").show().setStyle("opacity:0.4");
+      for (p = 1; (1 <= pages ? p <= pages : p >= pages); (1 <= pages ? p += 1 : p -= 1)) {
+        console.log(p);
+        $("page" + p).morph("margin-top:-400px; margin-right:-300px", {
+          duration: 10,
+          delay: p,
+          transition: "mirror"
+        });
+      }
+    }
+    return (show = !show);
+  });
   beat = 0;
   oneBeat = function() {
-    $$("select").each(function(select) {
-      return (select.size = beat * 2 - 1);
-    });
     document.fire("beat:" + beat);
-    document.fire("beat");
+    document.fire("beat:all", {
+      beat: beat
+    });
     return (beat = (beat + 1) % 4);
   };
   animate = function() {
@@ -197,7 +246,7 @@
   };
   init = function() {
     var beatLength;
-    beatLength = 60 / 150 * 1000;
+    beatLength = 60 / 155 * 1000;
     setInterval(animate, beatLength * 4);
     setInterval(oneBeat, beatLength / 2);
     initBlink();

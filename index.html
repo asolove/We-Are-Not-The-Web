@@ -1,11 +1,25 @@
 <html>
 <head>
-  <title></title>
+  <title>WE ARE NOT THE WEB</title>
   <style>
+  body { margin:0px; padding:0px; font:16px/1.5 georgia;}
   #wrap { overflow:none; height:100%; width:100%;}
+  select { font-size:1em;}
+  input[type=radio] { height:100px; width:100px;}
+  input[type=checkbox] { height:10px; width:10px;}
+  audio { position:fixed; bottom:0px; left:50%; width:200px; opacity:0.4; margin-left:-100px;}
+  
+  #essay { position:absolute;left:0px; top:0px; width:60%; padding:5% 20% 10%; background-color:#fff;}
+  .page { clear:both;margin-bottom:24px;}
+  h1 { float:left; font-size:48px; line-height:40px; margin:5px 10px 0 0; letter-spacing:-2px; }
+  p.conclusion { width:70%; display:block; float:left; padding-top:9px; font-size:24px; line-height:48px; font-style:italic; margin:0;}
+  
   </style>
+
 </head>
 <body>
+  
+  <audio src="Revolve.mp3" controls autobuffer autoplay loop></audio>
   <div id="wrap">
     <div id="topleft"></div>
     <div id="bottomleft"></div>
@@ -14,10 +28,42 @@
     
     <div id="b"></div>
     
-    <div id="page1" style="display:none;position:absolute;left:0px; top:0px; height:100%; width:100%;background-color:#fff">
-      <h1>We</h1><p>are asking the question:</p>
-      <blockquote>what does the web want to be?</blockquote>
-      <p>
+  </div>
+  <div id="essay">
+    <div id="page1" class="page">
+      <h1>WE </h1><p>are asking the question: what does the web want to be? 
+        What is the natural use of all the power it gives us?</p>
+    </div>
+    <div id="page2" class="page">
+      <h1>ARE </h1><p>the solutions we&rsquo;ve learned in the last five years &ndash;
+        minimalism, flat hierarchies, and the occasional flash of javascript &ndash;
+        helping us advance or holding us back?</p>
+    </div>
+    <div id="page3" class="page">
+      <h1>NOT </h1><p>only are these designs five years old, they operate inside
+        interaction models that are forty years old. Draggable rectangles, pointing
+        with a cursor, and filling in forms were imagined too long ago to be the 
+        best we can do today.</p>
+    </div>
+    <div id="page4" class="page">
+      <h1>THE </h1><p>way forward isn&rsquo;t obvious, but we know what needs
+        to be left behind. The metaphor of the screen as a page, a scroll, 
+        a control panel, or a desktop. The metaphor of a website as a book,
+        a shopping cart, or a helpful person.</p>
+    </div>
+    <div id="page5" class="page">
+      <h1>WEB </h1><p>design is something completely new. It isn&rsquo;t a medium where
+        you passively observe a creator&rsquo;s work. It isn&rsquo;t a 
+        person you interact with according to social norms. It&rsquo;s a new interaction.
+        <strong>The closest thing to a web site is a pet:</strong> you can think it beautiful
+        according to a variety of standards. You can consider it useful or just entertaining. 
+        You interact with it, though not as an 
+        equal, and you come to project emotions onto its complex behavior.</p>
+    </div>
+    <div id="page6" class="page">
+      <h1>YET </h1><p class="conclusion" id="page7">with so little control
+        and so many resources for building the new web,
+        who but we ourselves could stop us from doing something mad?</p>
     </div>
   </div>
   <script src="prototype.s2.min.js"></script>
