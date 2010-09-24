@@ -5,9 +5,10 @@
   body { margin:0px; padding:0px; font:16px/1.5 georgia;}
   #wrap { overflow:none; height:100%; width:100%;}
   select { font-size:1em;}
-  input[type=radio] { height:100px; width:100px;}
   input[type=checkbox] { height:10px; width:10px;}
-  audio { position:fixed; bottom:0px; left:50%; width:200px; opacity:0.4; margin-left:-100px;}
+  #audio { text-align:center; position:fixed; bottom:0px; left:50%; width:200px; margin-left:-200px; width:400px;}
+  #audio audio { opacity:0.4; }
+  #audio p { font-size:80%; }
   
   #essay { position:absolute;left:0px; top:0px; width:60%; padding:5% 20% 10%; background-color:#fff;}
   .page { clear:both;margin-bottom:24px;}
@@ -18,8 +19,10 @@
 
 </head>
 <body>
-  
-  <audio src="Revolve.mp3" controls autobuffer autoplay loop></audio>
+  <div id="audio">
+    <p><strong>Revolve</strong> by <a href="http://dig.ccmixter.org/dig?user=hisboyelroy">hisboyelroy</a></p>
+    <audio src="Revolve.mp3" controls autobuffer autoplay loop></audio>
+  </div>
   <div id="wrap">
     <div id="topleft"></div>
     <div id="bottomleft"></div>

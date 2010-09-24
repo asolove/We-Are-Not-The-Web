@@ -213,7 +213,7 @@
   click = 1;
   show = true;
   document.observe("click", function(event) {
-    var p;
+    var morphs, p;
     $("wrap").toggle();
     $("essay").toggle();
     if (show) {
@@ -223,9 +223,9 @@
     } else if (page === 8) {
       $("essay").show().setStyle("opacity:0.4");
       for (p = 1; (1 <= pages ? p <= pages : p >= pages); (1 <= pages ? p += 1 : p -= 1)) {
-        console.log(p);
-        $("page" + p).morph("margin-top:-400px; margin-right:-300px", {
-          duration: 10,
+        morphs = ["margin-left:200px;margin-bottom:20px", "margin-left:-200px;margin-bottom:20px"];
+        $("page" + p).morph(morphs[p % 2], {
+          duration: 5,
           delay: p,
           transition: "mirror"
         });

@@ -128,8 +128,8 @@ document.observe "click", (event) ->
   else if page is 8
     $("essay").show().setStyle("opacity:0.4")
     for p in [1..pages]
-      console.log(p)
-      $("page"+p).morph("margin-top:-400px; margin-right:-300px", {duration: 10, delay:p, transition:"mirror"})
+      morphs = ["margin-left:200px;margin-bottom:20px","margin-left:-200px;margin-bottom:20px"]
+      $("page"+p).morph(morphs[p%2], {duration: 5, delay:p, transition:"mirror"})
   show = !show
   
 
