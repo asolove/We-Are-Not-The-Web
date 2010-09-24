@@ -8,7 +8,8 @@
   input[type=checkbox] { height:10px; width:10px;}
   #audio { text-align:center; position:fixed; bottom:0px; left:50%; width:200px; margin-left:-200px; width:400px;}
   #audio audio { opacity:0.4; }
-  #audio p { font-size:80%; }
+  #audio p { color:#fff;font-size:80%; }
+  #audio a:link, #audio a:visited { color:#fff;}
   
   #essay { position:absolute;left:0px; top:0px; width:60%; padding:5% 20% 10%; background-color:#fff;}
   .page { clear:both;margin-bottom:24px;}
@@ -21,7 +22,10 @@
 <body>
   <div id="audio">
     <p><strong>Revolve</strong> by <a href="http://dig.ccmixter.org/dig?user=hisboyelroy">hisboyelroy</a></p>
-    <audio src="Revolve.mp3" controls autobuffer autoplay loop></audio>
+    <audio controls autobuffer autoplay loop>
+      <source src="Revolve.ogg" />
+      <source src="Revolve.mp3" />
+    </audio>
   </div>
   <div id="wrap">
     <div id="topleft"></div>
